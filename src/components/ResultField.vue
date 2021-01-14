@@ -1,9 +1,7 @@
 <template>
   <div class="calc-result">
-    <div class="calc-result__inner">
-      <p class="calc-result__inner_text">
-        {{result}}
-      </p>
+    <div class="calc-result__inner" title="Click to copy result">
+      <input type="text" id='calc-input' class="calc-result__inner_text" v-model="result">
     </div>
   </div>
 </template>
@@ -16,19 +14,17 @@ export default {
     }
   },
   methods: {
-    // copyResult() {
+    copyResult() {
 
-    // }
+    }
   }
 }
 </script>
 <style lang="scss">
   .calc-result{
     width: 100%;
-    padding: .5rem 0;
-
-    background-color: rgba(138, 138, 138, 0.7);
-    box-shadow: inset 1px -1px 1px white;
+    padding: 2rem 0;
+    background-color: black;
 
     color: white;
   }
@@ -39,9 +35,22 @@ export default {
     justify-content: flex-end;
     align-items: center;
 
-    & > p{
-      margin: 0!important;
-      padding: 0 .5rem;
+    cursor: pointer;
+
+    .calc-result__inner_text::-webkit-outer-spin-button,
+    .calc-result__inner_text::-webkit-inner-spin-button{
+      -webkit-appearance: none!important;
+    }
+
+    .calc-result__inner_text{
+      color: white;
+      cursor: pointer;
+      outline: none;
+      caret-color: transparent;
+
+      text-align: right;
+      width: 95%;
+      margin: 0 auto!important;
     }
   }
 </style>

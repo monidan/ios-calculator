@@ -8,9 +8,9 @@
 export default {
   name: 'Button',
   methods: {
-    // handleClick() {
-    //   this.$emit('')
-    // }
+    handleClick() {
+      this.$emit('calc-click', {emittedNode: this.$el.childNodes[0]})
+    }
   }
 }
 </script>
@@ -24,6 +24,25 @@ export default {
     background-color: rgb(61, 56, 55);
     color: white;
     padding: 2rem 0;
-    border: 1px solid rgba(255, 255, 255, .3);
+    border: 1px solid black;
+
+    transition: all .2s ease-in-out;
+    outline: none;
+
+    border-radius: 50px;
+
+    &:hover{
+      opacity: .85;
+    }
+  }
+
+  .orange-button{
+    background-color: #FE9505;
+  }
+  .grey-button{
+    background-color: #A5A5A5;
+  }
+  .black-button{
+    background-color: #333333 ;
   }
 </style>

@@ -28,7 +28,7 @@ export default {
   body{
     margin: 0;
     padding: 0;
-    
+
     font-family: 'Myriad Pro', sans-serif!important;
     font-size: 4.2rem;
     font-weight: 300!important;

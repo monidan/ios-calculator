@@ -8,7 +8,8 @@
       <v-row class="calc-buttons">
         <base-button v-for="icon in buttonIcons"
                      :key="icon"
-                     :class="{'zero-button': icon === '0'}">
+                     :class="[{'zero-button': icon === 0}, pickColor(icon)]"
+                     @calc-click='handleCalcClick'>
           {{ icon }}
         </base-button>
       </v-row>
@@ -24,10 +25,10 @@ export default {
     return {
       buttonIcons: [
         'AC', '+/-', '%', '÷',
-        '7', '8', '9', 'x',
-        '4', '5', '6', '-',
-        '1', '2', '3', '+',
-        '0', '.', '='
+        7, 8, 9, 'x',
+        4, 5, 6, '-',
+        1, 2, 3, '+',
+        0, '.', '='
         ],
     }
   },
@@ -36,16 +37,33 @@ export default {
     ResultField
   },
   methods: {
-    // TODO : picking right color 
     pickColor(icon) {
-      const greyIcons = this.buttonIcons.slice(0, 2);
-      const orangeIcons = this.buttonIcons.filter(icon => {
-        typeof Number(icon) !== 'number' &&  icon !== '.'
-      })
-      const blackIcons = this.buttonIcons.filter(icon => {
-        typeof Number(icon) === 'number' || icon === '.' 
-      })
-      console.table(greyIcons, orangeIcons, blackIcons, icon)
+      const sortedIcons = {};
+
+      sortedIcons.greyIcons = this.buttonIcons.slice(0, 3);
+      sortedIcons.orangeIcons = this.buttonIcons.filter(icon => {
+        return typeof icon !== 'number' &&  icon !== '.'
+      });
+      sortedIcons.blackIcons = this.buttonIcons.filter(icon => {
+        return typeof icon === 'number' || icon === '.' 
+      });
+
+      for(let icons in sortedIcons){
+        if(sortedIcons[icons].includes(icon)){
+          return icons.toString().split('Icons')[0] + '-button'
+        }
+      }
+    },
+    handleCalcClick(obj){
+      if(this.isResultFieldEmpty()){
+        console.log(obj)
+      }
+    },
+    isResultFieldEmpty() {
+      if(document.querySelector('.calc-result__inner_text').value === '0'){
+        return true
+      }
+      return false;
     }
   },
   mounted() {
@@ -57,9 +75,14 @@ export default {
 }
 </script>
 <style lang="scss">
+  #calculator{
+    background-color: #000;
+  }
+
   .calc-buttons{
     display: grid!important;
-    grid-template-columns: repeat(4, 25%)!important;
+    grid-template-columns: repeat(4, calc(25% - .75rem))!important;
+    gap: 1rem;
   }
 
   .zero-button{
