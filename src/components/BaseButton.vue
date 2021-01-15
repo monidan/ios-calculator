@@ -9,7 +9,7 @@ export default {
   name: 'Button',
   methods: {
     handleClick() {
-      this.$emit('calc-click', {emittedNode: this.$el.childNodes[0]})
+      this.$emit('calc-click', this.$el.innerHTML.trim())
     }
   }
 }
@@ -38,11 +38,17 @@ export default {
 
   .orange-button{
     background-color: #FE9505;
+    transition: all .2s ease-in-out
   }
   .grey-button{
     background-color: #A5A5A5;
   }
   .black-button{
     background-color: #333333 ;
+  }
+
+  .calc-button-active{
+    background-color: white;
+    color: #FE9505;
   }
 </style>

@@ -1,23 +1,18 @@
 <template>
   <div class="calc-result">
     <div class="calc-result__inner" title="Click to copy result">
-      <input type="text" id='calc-input' class="calc-result__inner_text" v-model="result">
+      <input type="number" id='calc-input' class="calc-result__inner_text" v-model="$store.state.result">
     </div>
   </div>
 </template>
 <script>
 export default {
   name: 'ResultField',
-  data() {
-    return {
-      result: 0
-    }
-  },
   methods: {
     copyResult() {
 
     }
-  }
+  },
 }
 </script>
 <style lang="scss">

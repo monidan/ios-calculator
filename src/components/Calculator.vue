@@ -18,6 +18,7 @@
 <script>
 import BaseButton from '@/components/BaseButton.vue'
 import ResultField from '@/components/ResultField.vue'
+import {mapMutations} from 'vuex';
 
 export default {
   name: 'Calculator',
@@ -54,18 +55,82 @@ export default {
         }
       }
     },
-    handleCalcClick(obj){
-      if(this.isResultFieldEmpty()){
-        console.log(obj)
+    handleCalcClick(icon){
+      const numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
+            countSigns = ['÷', 'x', '-', '+', '=', '%'],
+            otherButtons = ['AC', '+/-', '.'];
+      let iconType = '';
+
+      if(numbers.includes(icon))
+        iconType = 'number'
+      if(countSigns.includes(icon))
+        iconType = 'countSign'
+      if(otherButtons.includes(icon))
+        iconType = 'otherButtons'
+
+      switch(iconType){
+        case 'number': {
+          const actionButtons = document.querySelectorAll('.orange-button')
+          actionButtons.forEach(button => button.classList.remove('calc-button-active'))
+          this.$store.commit('writeNumberToResult', icon)
+          break;
+        }
+        case 'countSign': { 
+          if(countSigns.slice(0, 4).includes(icon)){
+            const actionButtons = document.querySelectorAll('.orange-button')
+            actionButtons.forEach(button => {
+              if(button.innerHTML.trim() === icon){
+                button.classList.add('calc-button-active')
+              } else {
+                button.classList.remove('calc-button-active')
+              }
+            })
+            this.$store.commit('changeCurrentMathAction', icon);
+          } else {
+            switch(icon) {
+              case '=': {
+                const actionButtons = document.querySelectorAll('.orange-button')
+                actionButtons.forEach(button => button.classList.remove('calc-button-active'))
+                this.$store.dispatch('solve');
+                break;
+              }
+              case '%': {
+
+                break;
+              }
+            }
+          }
+          break;
+        }
+        case 'otherButtons': {
+          switch(icon){
+            case 'AC': {
+              this.$store.commit('clearResult')
+              const actionButtons = document.querySelectorAll('.orange-button')
+              actionButtons.forEach(button => button.classList.remove('calc-button-active'))
+              break;
+            }
+            case '+/-': {
+              break;
+            }
+            case '.': {
+              break;
+            }
+          }
+          break;
+        }
+        default:{
+          console.trace('default value')
+          break;
+        }
       }
     },
-    isResultFieldEmpty() {
-      if(document.querySelector('.calc-result__inner_text').value === '0'){
-        return true
-      }
-      return false;
-    }
   },
+  ...mapMutations([
+    'changeCurrentMathAction',
+    'writeNumberToResult',
+    'clearResult'
+  ]),
   mounted() {
     const resultField = document.querySelector('.calc-result')
     const calcButtons = document.querySelector('.calc-buttons');
