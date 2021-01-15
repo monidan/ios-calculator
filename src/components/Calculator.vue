@@ -111,9 +111,11 @@ export default {
               break;
             }
             case '+/-': {
+              this.$store.commit('changeNumberSign');
               break;
             }
             case '.': {
+              this.$store.commit('addFloatingPoint');
               break;
             }
           }
@@ -129,7 +131,9 @@ export default {
   ...mapMutations([
     'changeCurrentMathAction',
     'writeNumberToResult',
-    'clearResult'
+    'clearResult',
+    'changeNumberSign',
+    'addFloatingPoint'
   ]),
   mounted() {
     const resultField = document.querySelector('.calc-result')

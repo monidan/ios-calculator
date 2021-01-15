@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    result: 0,
+    result: '0',
     calculations: [],
     activeMathAction: '',
     isNewResult: false
@@ -24,21 +24,29 @@ export default new Vuex.Store({
       state.result = state.calculations.reduce((number, total) => total = Number(number) * Number(total))
     },
     clearResult(state){
-      state.result = 0;
+      state.result = '0';
       state.calculations = []
       state.activeMathAction = ''
       state.isNewResult = false
     },
-    // floatPoint(state){
-
-    // },
+    addFloatingPoint(state){
+      if(!state.result.search('.')){
+        state.result += '.'
+        console.log(typeof state.result) 
+      }
+    },
+    changeNumberSign(state){
+      Number(state.result) > 0 ? 
+        state.result = Number('-' + state.result)
+        : state.result = Number(state.result.toString().replace('-', ''))
+    },
     changeCurrentMathAction(state, mathAction){
       state.activeMathAction = mathAction;
       state.calculations.push(state.result)
       state.isNewResult = true
     },
     writeNumberToResult(state, number){
-      if(state.result === 0 || state.isNewResult){
+      if(state.result === "0" || state.isNewResult){
         state.result = number
         state.isNewResult = false
       } else {
