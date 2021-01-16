@@ -32,6 +32,8 @@ export default {
     font-family: 'Myriad Pro', sans-serif!important;
     font-size: 4.2rem;
     font-weight: 300!important;
+
+    background-color: black;
   }
   .row{
     margin: 0!important;

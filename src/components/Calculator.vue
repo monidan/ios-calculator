@@ -106,7 +106,7 @@ export default {
                 break;
               }
               case '%': {
-
+                this.$store.commit('calculatePercentage');
                 break;
               }
             }
@@ -144,7 +144,8 @@ export default {
     'writeNumberToResult',
     'clearResult',
     'changeNumberSign',
-    'addFloatingPoint'
+    'addFloatingPoint',
+    'calculatePercentage'
   ]),
   mounted() {
     const resultField = document.querySelector('.calc-result')

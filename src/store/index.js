@@ -23,6 +23,9 @@ export default new Vuex.Store({
     multiply(state){
       state.result = state.calculations.reduce((number, total) => total = Number(number) * Number(total))
     },
+    calculatePercentage(state){
+      state.result = Number(state.result) * 0.01;
+    },
     clearResult(state){
       state.result = '0';
       state.calculations = []
