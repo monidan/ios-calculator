@@ -1,7 +1,9 @@
 <template>
   <div class="calc-result">
-    <div class="calc-result__inner" title="Click to copy result">
-      <input type="text" id='calc-input' class="calc-result__inner_text" v-model="$store.state.result">
+    <div class="calc-result__inner" title="Click to copy result" @click="copyResult">
+      <input type="text" id='calc-input' class="calc-result__inner_text" 
+             v-model="$store.state.result"
+             readonly> 
     </div>
   </div>
 </template>
@@ -10,8 +12,12 @@ export default {
   name: 'ResultField',
   methods: {
     copyResult() {
+      const inputEl = document.querySelector('#calc-input')
 
-    }
+      inputEl.select();
+      document.execCommand('copy')
+      this.$emit('copied');
+    },
   },
 }
 </script>
@@ -47,5 +53,9 @@ export default {
       width: 95%;
       margin: 0 auto!important;
     }
+  }
+
+  #calc-input::selection{
+    background-color: rgba(white, .1);
   }
 </style>

@@ -1,9 +1,12 @@
 <template>
   <div id="calculator">
+      <transition name="modal">
+        <modal v-if="isTextCopied" class="copy-state-modal">
+          Copied!
+        </modal>
+      </transition>
       <v-row>
-        <result-field>
-
-        </result-field>
+        <result-field @copied='handleCopyAction'></result-field>
       </v-row>
       <v-row class="calc-buttons">
         <base-button v-for="icon in buttonIcons"
@@ -15,9 +18,11 @@
       </v-row>
   </div>
 </template>
+
 <script>
 import BaseButton from '@/components/BaseButton.vue'
 import ResultField from '@/components/ResultField.vue'
+import Modal from '@/components/Modal.vue'
 import {mapMutations} from 'vuex';
 
 export default {
@@ -31,11 +36,13 @@ export default {
         1, 2, 3, '+',
         0, '.', '='
         ],
+        isTextCopied: false,
     }
   },
   components: {
     BaseButton,
-    ResultField
+    ResultField,
+    Modal
   },
   methods: {
     pickColor(icon) {
@@ -54,6 +61,10 @@ export default {
           return icons.toString().split('Icons')[0] + '-button'
         }
       }
+    },
+    handleCopyAction(){
+      this.isTextCopied = !this.isTextCopied;
+      setTimeout(() => this.isTextCopied = !this.isTextCopied, 1500);
     },
     handleCalcClick(icon){
       const numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
@@ -143,6 +154,7 @@ export default {
   }
 }
 </script>
+
 <style lang="scss">
   #calculator{
     background-color: #000;
@@ -157,4 +169,19 @@ export default {
   .zero-button{
     grid-column: 1/3;
   }
+
+  .copy-state-modal{
+    background-color: rgba(34,139,34, .6);
+  }
+
+  .modal-enter-active{
+    transition: all .5s ease-in-out;
+  }
+  .modal-leave-active{
+    transition: all .5s ease-in-out;
+  }
+  .modal-enter, .modal-leave-to{
+    transform: translateY(-120%)!important;
+  }
+
 </style>
